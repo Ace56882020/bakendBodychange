@@ -1,0 +1,40 @@
+{
+    "id": 0,
+    "nombre": "tren superior",
+    "tipo": "json",
+    "principal": [],
+    "children": [
+        {
+            "id": 0,
+            "nombre": "pecho",
+            "children": [
+                {
+                    "id": 0,
+                    "nombre": "flexiones",
+                    "serie": 5,
+                    "repeticiones": 12,
+                    "principal": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "id": 1,
+                    "nombre": "aperturas",
+                    "serie": 5,
+                    "repeticiones": 12,
+                    "principal": [
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ],
+            "principal": [
+                0,
+                0
+            ]
+        }
+    ]
+}
