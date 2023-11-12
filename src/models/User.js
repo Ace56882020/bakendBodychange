@@ -1,12 +1,20 @@
 const { Schema, model } = require("mongoose");
 
 const UserSchema = Schema({
-  token: {
+  nombre: {
     type: String,
     required: true,
   },
-  dataUser: {
+  apellido: {
     type: String,
+    required: true,
+  },
+  token: {
+    type: String,
+    required: false,
+  },
+  dataUser: {
+    type: Array,
     required: true,
   },
   dateForm: {
@@ -17,6 +25,22 @@ const UserSchema = Schema({
     type: Array,
     required: true,
   },
+  usuerName: {
+    type: String,
+    required: false,
+  },
+  password: {
+    type: String,
+    required: false,
+  },
+  rol: {
+    type: String,
+    required: true,
+  },
+  statusUser: {
+    type: Boolean,
+    required: true,
+  },
   dateCreation: {
     type: Date,
     default: Date.now(),
@@ -25,7 +49,7 @@ const UserSchema = Schema({
     type: Date,
     default: Date.now(),
   },
-});
+}); 
 
 //retirar campos que no deseo mostrar
 UserSchema.methods.toJSON = function () {

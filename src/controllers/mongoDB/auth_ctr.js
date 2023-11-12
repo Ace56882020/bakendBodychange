@@ -8,14 +8,14 @@ authCtr.login = async (req, res) => {
   let correct = false;
   let status = 400;
   let answer;
-  const { usuario, password } = req.body;
+  const { usuerName, password } = req.body;
   try {
     //verificar si el correo existe
-    const usuarioValue = await User.findOne({ usuario });
+    const usuarioValue = await User.findOne({ usuerName });
     if (usuarioValue) {
       const passwordRes = await decrypt(usuarioValue.password)
       if (passwordRes === password) {
-        if (usuarioValue.activo) {
+        if (usuarioValue.statusUser) {
           const validarToken = await validarJWT(usuarioValue.token)
           if (validarToken === 'Token activo') {
             status = 200,
@@ -24,8 +24,9 @@ authCtr.login = async (req, res) => {
                 token:usuarioValue.token,
                 rol:usuarioValue.rol,
                 id:usuarioValue._id,
-                activo:usuarioValue.activo,
-                nombre:usuarioValue.nombre
+                statusUser:usuarioValue.statusUser,
+                nombre:usuarioValue.nombre,
+                apellido:usuarioValue.apellido
               }
           } else {
             answer = 'Sesion Expirada'

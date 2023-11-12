@@ -23,7 +23,6 @@ formularioCtr.getFormsById = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(status).send("not found");
     }
 };
 

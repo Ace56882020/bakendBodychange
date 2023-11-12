@@ -21,6 +21,7 @@ cryptoCtr.encrypt = async (res) => {
 
 // descifrar
 cryptoCtr.decrypt = async (password) => {
+  // const password = password.body.password
   const decrypted = CryptoJS.AES.decrypt(password, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,

@@ -15,31 +15,12 @@ userCtr.createuser = async (req, res) => {
   let answer;
   let msg = "registro";
   await validarCampos(req);
-  const {
-    nombre,
-    apellido,
-    edad,
-    peso,
-    estatura,
-    rol,
-    activo,
-    img,
-    formAseoramiento,
-  } = req.body;
+  const {nombre, apellido, dataUser, dateForm, dataImage,rol,statusUser} = req.body;
+
   try {
     let user;
     // Creamos nuestro usuario
-    user = new User({
-      nombre,
-      apellido,
-      edad,
-      peso,
-      estatura,
-      rol,
-      activo,
-      img,
-      formAseoramiento,
-    });
+    user = new User({nombre, apellido, dataUser, dateForm, dataImage,rol,statusUser});
     //crea usuario
     const crtUser = await user.save();
     if (crtUser) {
@@ -50,7 +31,7 @@ userCtr.createuser = async (req, res) => {
       //enccripta contraseña
       const encryptRes = await encrypt(generaUsuario.password);
       searchUser.password = encryptRes;
-      searchUser.usuario = generaUsuario.usuarioLogin;
+      searchUser.usuerName = generaUsuario.usuarioLogin;
       const token = await generarJWT(searchUser.id);
       searchUser.token = token;
       const valid = await validarJWT(token);
@@ -91,7 +72,7 @@ userCtr.getUser = async (req, res) => {
   let correct = false;
   let status = 400;
   const { limit = 5, desde = 0 } = req.query;
-  const query = { activo: true };
+  const query = { statusUser: true };
   try {
     const users = await User.find(query)
       .skip(Number(desde))
@@ -104,7 +85,7 @@ userCtr.getUser = async (req, res) => {
     res.status(status).json({
       total,
       correct,
-      resp: users,
+      retorno: users,
     });
   } catch (error) {
     console.log(error);
@@ -169,7 +150,7 @@ userCtr.getUserById = async (req, res) => {
   const _id = req.body.id;
   try {
     const user = await User.find({ _id });
-    if (user) {
+    if (user.length!==0) {
       // const imc = await calculoIMC(params);
       // pathImg = await uploadgetImg(user.img)
       status = 200;
@@ -186,7 +167,6 @@ userCtr.getUserById = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(status).send("not found");
   }
 };
 
