@@ -26,4 +26,28 @@ formularioCtr.getFormsById = async (req, res) => {
     }
 };
 
+formularioCtr.createForm = async (req, res) => {
+    let correct = false;
+    let status = 400;
+    let answer;
+    const {id, estado, descripcion, nombre, dataRutina} = req.body;
+    try {
+      let form;
+      form = new Formulario({id, estado, descripcion, nombre, dataRutina});
+      const crtForm = await form.save();
+      if (crtForm) {
+        answer = "ok";
+        correct = true;
+        status = 200;
+      } else {
+        answer = "error al guardar";
+      }
+      res.status(status).json({
+        correct,
+        resp: answer,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 module.exports = formularioCtr;

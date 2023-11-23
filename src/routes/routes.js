@@ -42,6 +42,7 @@ router.post(`/${urls.viewFile}`, uploadCtr.viewFile);
 
 //formularios
 router.post(`/${urls.getForms}`, formularioCtr.getFormsById);
+router.post(`/${urls.ctrForms}`, formularioCtr.createForm);
 
 //alimentacion
 router.post(`/${urls.getEats}`, alimentacionCtr.getEatsById);

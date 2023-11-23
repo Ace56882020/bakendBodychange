@@ -26,7 +26,7 @@ const global_data = {
 
     //formularios
     getForms: "get-forms",
-
+    ctrForms: "ctr-forms",
     //alimentacion
     getEats: "get-eats",
 
