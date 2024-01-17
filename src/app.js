@@ -4,7 +4,7 @@ const cors = require('cors');
 //modulos
 const path = require('path');
 const routes = require('./routes/routes');
-const port = process.env.PORT || 4500
+const port = process.env.PORT || 4000
 const bodyParser = require('body-parser');
 const { chat } = require('./controllers/functions/socketIO')
 

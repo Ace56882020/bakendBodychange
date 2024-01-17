@@ -1,61 +1,69 @@
 const User = require("../../models/User");
-const { validarCampos } = require("./../functions/validar-campos");
+const {
+  validarCampos,
+  validatorEmail,
+} = require("./../functions/validar-campos");
 const generarUsuario = require("./../functions/genera-usuario");
 const { encrypt } = require("./../functions/crypto.js");
-const generarJWT = require("../functions/generar-jwt");
+const {generarJWT} = require("../functions/generar-jwt");
+const {validarJWT} = require("../functions/generar-jwt");
 const userCtr = {};
 const path = require("path");
 const fs = require("fs");
 const { uploadgetImg } = require("../functions/validate-file-upload");
-const validarJWT = require("../functions/validar-jwt");
 
 userCtr.createuser = async (req, res) => {
   let correct = false;
   let status = 400;
   let answer;
-  let msg = "registro";
+  let user;
+
   await validarCampos(req);
-  const {nombre, apellido, dataUser, dateForm, dataImage,rol,statusUser} = req.body;
+  const {nombre,apellido,correo,password,edad,estatura,peso,genero} = req.body.data;
 
   try {
-    let user;
     // Creamos nuestro usuario
-    user = new User({nombre, apellido, dataUser, dateForm, dataImage,rol,statusUser});
+    user = new User({nombre,apellido,correo,password,edad,estatura,peso,genero});
     //crea usuario
-    const crtUser = await user.save();
-    if (crtUser) {
-      //busca usuario por id
-      const searchUser = await getUserByIdCreate(crtUser._id);
-      //genera login y pasword
-      const generaUsuario = await generarUsuario(searchUser);
-      //enccripta contraseña
-      const encryptRes = await encrypt(generaUsuario.password);
-      searchUser.password = encryptRes;
-      searchUser.usuerName = generaUsuario.usuarioLogin;
-      const token = await generarJWT(searchUser.id);
-      searchUser.token = token;
-      const valid = await validarJWT(token);
-      searchUser.sesion = valid.fechaToken;
-      //actualiza usuario con campos de login y password
-      updateUser = await User.findOneAndUpdate(
-        { _id: searchUser._id },
-        searchUser,
-        { new: true }
-      );
-      if (updateUser) {
-        answer = updateUser;
-        correct = true;
-        status = 200;
-      } else {
-        answer = "error al actualizar usuario";
-      }
+    var correoExistente = await validatorEmail(correo);
+    if (correoExistente.status!==200) {
+      answer = correoExistente.msg;
+      correct;
+      status;
     } else {
-      answer = "error al guardar";
+      const crtUser = await user.save();
+      if (crtUser) {
+        //busca usuario por id
+        const searchUser = await getUserByIdCreate(crtUser._id);
+        //enccripta contraseña
+        const encryptRes = await encrypt(searchUser.password);
+        searchUser.password = encryptRes;
+        const token = await generarJWT(searchUser.id);
+        searchUser.token = token;
+        const valid = await validarJWT(token);
+        searchUser.sesion = valid.fechaToken;
+        searchUser.estado = true,
+        searchUser.rol ='user'
+        //actualiza usuario con campos de login y password
+        updateUser = await User.findOneAndUpdate(
+          { _id: searchUser._id },
+          searchUser,
+          { new: true }
+        );
+        if (updateUser) {
+          answer = updateUser;
+          correct = true;
+          status = 200;
+        } else {
+          answer = "error al actualizar usuario";
+        }
+      } else {
+        answer = "error al crear usuario";
+      }
     }
-
     res.status(status).json({
       correct,
-      resp: answer,
+      retorno: answer,
     });
   } catch (error) {
     console.log(error);
@@ -74,8 +82,7 @@ userCtr.getUser = async (req, res) => {
   const { limit = 5, desde = 0 } = req.query;
   const query = { statusUser: true };
   try {
-    const users = await User.find(query)
-      .skip(Number(desde))
+    const users = await User.find(query).skip(Number(desde));
     //   .limit(Number(limit));
     if (users) {
       correct = true;
@@ -150,7 +157,7 @@ userCtr.getUserById = async (req, res) => {
   const _id = req.body.id;
   try {
     const user = await User.find({ _id });
-    if (user.length!==0) {
+    if (user.length !== 0) {
       // const imc = await calculoIMC(params);
       // pathImg = await uploadgetImg(user.img)
       status = 200;
@@ -183,6 +190,30 @@ userCtr.deletUser = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error");
+  }
+};
+
+userCtr.updateUserEstado = async (id) => {
+  let correct = false;
+  let status = 400;
+
+  try {
+    let usuario = await getUserByIdCreate(id);
+    if (!userById) {
+      return (msg = "No existe el usuario");
+    }
+    usuario.estado = false
+    status = 200;
+    correct = true;
+    usuarioInactivo = await User.findOneAndUpdate({ _id: params }, usuario, {
+      new: true,
+    });
+    res.status(status).json({
+      retorno: usuarioInactivo,
+      correct,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

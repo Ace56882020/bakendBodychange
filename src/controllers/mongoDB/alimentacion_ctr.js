@@ -9,7 +9,7 @@ alimentacionCtr.getEatsById = async (req, res) => {
     const id = req.body.id;
     try {
         const alimetacion = await Alimentacion.find({id});
-        if (alimetacion) {
+        if (alimetacion.length !== 0) {
             status = 200
             correct = true
             retorno = alimetacion

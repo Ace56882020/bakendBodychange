@@ -9,43 +9,59 @@ const UserSchema = Schema({
     type: String,
     required: true,
   },
+  correo: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  edad: {
+    type: Number,
+    required: true,
+  },
+  estatura: {
+    type: Number,
+    required: true,
+  },
+  peso: {
+    type: Number,
+    required: true,
+  },
+  rol: {
+    type: String,
+    required: false,
+  },
+  estado: {
+    type: Boolean,
+    required: false,
+  },
+  formularioChecked: {
+    type: Boolean,
+    required: false,
+  },
   token: {
     type: String,
     required: false,
   },
-  dataUser: {
-    type: Array,
-    required: true,
-  },
-  dateForm: {
-    type: Array,
-    required: true,
-  },
-  dataImage: {
-    type: Array,
-    required: true,
-  },
-  usuerName: {
+  dataMedidas: {
     type: String,
     required: false,
   },
-  password: {
+  dataFormulario: {
     type: String,
     required: false,
   },
-  rol: {
+  images: {
     type: String,
-    required: true,
+    required: false,
   },
-  statusUser: {
-    type: Boolean,
-    required: true,
-  },
-  dateCreation: {
+  fechaCreacion: {
     type: Date,
     default: Date.now(),
   },
-  dateUpdate: {
+  fechaModificacion: {
     type: Date,
     default: Date.now(),
   },

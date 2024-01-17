@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator')
-
+const User = require("../../models/User");
 
 const validarCampos = async (req, res, next) => {
     const errors = validationResult(req)
@@ -7,7 +7,7 @@ const validarCampos = async (req, res, next) => {
         return res.status(400).json(errors)
     }
 }
-const validatorEmail = async (correo, User) => {
+const validatorEmail = async (correo) => {
     let retorno = '';
     let correct = false;
     let status = 400

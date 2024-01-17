@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 var moment = require("moment");
 require("dotenv").config();
 const key = process.env.SECRETPRIVATEKEY;
+const fechaActual = new Date()
 
 const generarJWT = (uid = "") => {
   //   let dateNow = new Date();
@@ -28,4 +29,25 @@ const generarJWT = (uid = "") => {
   });
 };
 
-module.exports = generarJWT;
+const validarJWT = async (token) => {
+    let msg;
+    try {
+        const tokenOk = jwt.verify(token, key);
+        if (tokenOk) {
+            const fechaToken = new Date(tokenOk.exp)
+            if (fechaActual === fechaToken) {
+                return msg = 'Token expiro'
+            } else {
+                return msg = 'Token activo'
+            }
+        } else {
+            return msg = 'verificación token erronea'
+        }
+    } catch (err) {
+        console.log(err)
+        return msg='Token expiro'
+    }
+}
+
+module.exports = {generarJWT,validarJWT};
+

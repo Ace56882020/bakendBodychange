@@ -17,7 +17,7 @@ const FormularioSchema = Schema({
         type: Array,
         required: true
     },
-    estado: {
+    status: {
         type: Boolean,
         required: true
     },

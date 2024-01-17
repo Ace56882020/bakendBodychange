@@ -1,6 +1,7 @@
 const User = require("../../models/User");
-const validarJWT = require("../functions/validar-jwt");
-const { decrypt } = require('./../functions/crypto.js')
+const {validarJWT} = require("../functions/generar-jwt");
+const { decrypt } = require("./../functions/crypto.js");
+const userCtr = require("./user_ctr.js");
 
 const authCtr = {};
 
@@ -8,48 +9,55 @@ authCtr.login = async (req, res) => {
   let correct = false;
   let status = 400;
   let answer;
-  const { usuerName, password } = req.body;
+  const { correo, password } = req.body;
   try {
     //verificar si el correo existe
-    const usuarioValue = await User.findOne({ usuerName });
-    if (usuarioValue) {
-      const passwordRes = await decrypt(usuarioValue.password)
-      if (passwordRes === password) {
-        if (usuarioValue.statusUser) {
-          const validarToken = await validarJWT(usuarioValue.token)
-          if (validarToken === 'Token activo') {
-            status = 200,
-              correct = true,
-              answer = {
-                token:usuarioValue.token,
-                rol:usuarioValue.rol,
-                id:usuarioValue._id,
-                statusUser:usuarioValue.statusUser,
-                nombre:usuarioValue.nombre,
-                apellido:usuarioValue.apellido
-              }
-          } else {
-            answer = 'Sesion Expirada'
-          }
-        } else {
-          answer = 'Usuaro inhabilitado'
-        }
-      } else {
-        answer = 'password incorrecta'
-      }
+    const usuario = await User.findOne({ correo });
+    if (!usuario) {
+      return res.status(status).json({
+        msg: "Usuario / Password no son correctos - correo",
+      });
+    }
 
+    // Verificar la contraseña
+    const passwordRes = await decrypt(usuario.password);
+    if (passwordRes !== password) {
+      return res.status(status).json({
+        msg: "Usuario / Password no son correctos - password",
+      });
+    }
+
+    // SI el usuario está activo
+    if (!usuario.estado) {
+      return res.status(status).json({
+        msg: "Usuario / Password no son correctos - estado: false",
+      });
+    }
+
+    // SI el token está activo
+    const validarToken = await validarJWT(usuario.token);
+    if (validarToken === "Token activo") {
+        status = 200,
+        correct = true,
+        answer = {
+          // id: usuario._id,
+          usuario
+          // nombre: usuario.nombre,
+          // apellido: usuario.apellido,
+          // rol: usuario.rol,
+          // token: usuario.token,
+          // estado:usuario.estado
+        };
     } else {
-      answer = 'login incorrecto'
+      userCtr.updateUserEstado(usuario._id)
+      answer = "Sesion Expirada";
     }
     res.status(status).json({
       correct,
-      resp: answer,
+      retorno: answer,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      answer: 'Hable con el administrador'
-    });
   }
 };
 
