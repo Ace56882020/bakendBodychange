@@ -9,7 +9,11 @@ const UserSchema = Schema({
     type: String,
     required: true,
   },
-  correo: {
+  alias: {
+    type: String,
+    required: true,
+  },
+  genero: {
     type: String,
     required: true,
   },

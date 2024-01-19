@@ -1,7 +1,7 @@
 const User = require("../../models/User");
 const {
   validarCampos,
-  validatorEmail,
+  validatorAliasl,
 } = require("./../functions/validar-campos");
 const generarUsuario = require("./../functions/genera-usuario");
 const { encrypt } = require("./../functions/crypto.js");
@@ -19,15 +19,15 @@ userCtr.createuser = async (req, res) => {
   let user;
 
   await validarCampos(req);
-  const {nombre,apellido,correo,password,edad,estatura,peso,genero} = req.body.data;
+  const {nombre,apellido,alias,password,edad,estatura,peso,genero} = req.body.data;
 
   try {
     // Creamos nuestro usuario
-    user = new User({nombre,apellido,correo,password,edad,estatura,peso,genero});
+    user = new User({nombre,apellido,alias,password,edad,estatura,peso,genero});
     //crea usuario
-    var correoExistente = await validatorEmail(correo);
-    if (correoExistente.status!==200) {
-      answer = correoExistente.msg;
+    var aliasValue = await validatorAliasl(alias);
+    if (aliasValue.status!==200) {
+      answer = aliasValue.msg;
       correct;
       status;
     } else {

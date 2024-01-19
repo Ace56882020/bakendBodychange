@@ -9,10 +9,10 @@ authCtr.login = async (req, res) => {
   let correct = false;
   let status = 400;
   let answer;
-  const { correo, password } = req.body;
+  const { alias, password } = req.body;
   try {
     //verificar si el correo existe
-    const usuario = await User.findOne({ correo });
+    const usuario = await User.findOne({ alias });
     if (!usuario) {
       return res.status(status).json({
         msg: "Usuario / Password no son correctos - correo",
