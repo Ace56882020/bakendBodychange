@@ -43,7 +43,8 @@ userCtr.createuser = async (req, res) => {
         const valid = await validarJWT(token);
         searchUser.sesion = valid.fechaToken;
         searchUser.estado = true,
-        searchUser.rol ='user'
+        searchUser.rol ='user',
+        searchUser.formularioChecked=false
         //actualiza usuario con campos de login y password
         updateUser = await User.findOneAndUpdate(
           { _id: searchUser._id },

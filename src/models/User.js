@@ -43,7 +43,7 @@ const UserSchema = Schema({
   },
   formularioChecked: {
     type: Boolean,
-    required: false,
+    required: true,
   },
   token: {
     type: String,
