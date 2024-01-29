@@ -37,7 +37,7 @@ router.post(`/${urls.encrypt}`, cryptoCtr.encrypt)
 router.post(`/${urls.decrypt}`, cryptoCtr.decrypt)
 
 //uploadFile
-router.post(`/${urls.uploadFile}`, uploadCtr.uploadFile);
+router.post(`/${urls.uploadFile}`, uploadCtr.uploadCloudinary);
 router.post(`/${urls.viewFile}`, uploadCtr.viewFile);
 
 //formularios

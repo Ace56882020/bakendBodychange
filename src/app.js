@@ -38,8 +38,10 @@ app.use(fileUpload({
 }));
 app.use('/', routes);
 
-
+app.get('/home', (req, res) => {
+    res.render('./index');
+});
 
 server.listen(port, () => {
-    console.log('BODYCHANGE, port:', port)
+    console.log('DEV-BODY, port:', port)
 })
