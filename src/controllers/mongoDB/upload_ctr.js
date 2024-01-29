@@ -24,11 +24,42 @@ uploadCtr.uploadFile = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    
 }
 
 uploadCtr.viewFile = async (req, res) => {
-    const img = req.body.img
-    const value = await uploadgetImg(img)
-    console.log(value)
+    let status = 400
+    let correct = false
+    let answer;
+    try {
+        const img = req.body.img
+        const file = await uploadgetImg(img)
+        if (file) {
+            status = 200
+            correct = true
+            answer = file
+        }
+        res.status(status).json({
+            correct,
+            resp: answer
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+
+uploadCtr.cargarArchivo = async(req, res = response) => {
+
+
+    try {
+        const nombre = await subirArchivo( req.files, undefined, 'imgs' );
+        res.json({ nombre });
+
+    } catch (msg) {
+        res.status(400).json({ msg });
+    }
+
+}
+
 module.exports = uploadCtr;

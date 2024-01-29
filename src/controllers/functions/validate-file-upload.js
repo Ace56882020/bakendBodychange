@@ -27,7 +27,7 @@ const uploadValidate = async (req, carperta = '') => {
 
     })
     dataFile.nombreFile = nombreTemp;
-    uploadgetImg()
+    // uploadgetImg()
 
     return nombreTemp
 }

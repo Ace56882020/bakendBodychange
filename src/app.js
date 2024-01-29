@@ -4,7 +4,7 @@ const cors = require('cors');
 //modulos
 const path = require('path');
 const routes = require('./routes/routes');
-const port = process.env.PORT || 4001
+const port = process.env.PORT || 4000
 const bodyParser = require('body-parser');
 const { chat } = require('./controllers/functions/socketIO')
 
@@ -26,15 +26,19 @@ app.use(bodyParser.json({ limit: '250mb' }));
 app.use(bodyParser.urlencoded({ limit: '250mb', extended: true }));
 app.use(cors());
 
+app.use(express.static('public'));
+// /directorio publico
+process.env.publicUpload = path.join(__dirname, 'upload/');
 // server.listen(3000);
 //carga de archivos
 app.use(fileUpload({
-    createParentPath: true
+    useTempFiles:true,
+    tempFileDir:'/tmp',
+    limits: { fileSize: 50 * 1024 * 1024 },
 }));
 app.use('/', routes);
-// /directorio publico
-app.use(express.static(path.join(__dirname, 'public')));
-process.env.publicUpload = path.join(__dirname, 'upload/');
+
+
 
 server.listen(port, () => {
     console.log('BODYCHANGE, port:', port)
