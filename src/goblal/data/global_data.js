@@ -23,6 +23,7 @@ const global_data = {
     //uploadFile
     uploadFile: "upload-file",
     viewFile: "view-file",
+    uploadFileCloudinary: "upload-file-cloudinary",
 
     //formularios
     getForms: "get-forms",

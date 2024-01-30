@@ -11,21 +11,21 @@ global.dataFile = {
   nombreFile: "",
 };
 const uploadValidate = async (req, carperta = "") => {
-  const { archivo } = req;
-  const nombreArchivo = archivo.name.split(".");
+  const { name,type,uri } = req;
+  const nombreArchivo = name[0].split(".");
   const extension = nombreArchivo[nombreArchivo.length - 1];
 
   //validar extensiones
-  const extensionesValidas = ["png", "jpg", , "JPG", "jpeg", "gif"];
-  if (!extensionesValidas.includes(extension)) {
+  const extensionesValidas = ["image/png", "jpg", , "JPG", "jpeg", "gif"];
+  if (!extensionesValidas.includes(type[0])) {
     return {
-      msg: `la extension no es valida ${extension}`,
+      msg: `la extension no es valida ${type}`,
     };
   }
-  const nombreTemp = uuidv4() + "." + extension;
+  const nombreTemp = uuidv4() + "." + 'png';
   const uploadpath = path.join(process.env.publicUpload, nombreTemp);
   // Use the mv() method to place the file somewhere on your server
-  archivo.mv(uploadpath, (err) => {
+  req.mv(uploadpath, (err) => {
     if (err) {
       console.Console(err);
     }
@@ -53,8 +53,8 @@ const uploadgetImg = async () => {
   // console.png(image);
 };
 
-const uploadImagenCloudinary = async (req) => {
-  const id = req.body.id;
+const uploadImagenCloudinary = async (req,res) => {
+  const id = '65aaa488b725047bf4a691b8';
   const userImg = await User.findById(id);
   if (!userImg) {
     return res.status(400).json({

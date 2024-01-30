@@ -36,14 +36,16 @@ const UserSchema = Schema({
   rol: {
     type: String,
     required: false,
+    default: 'user',
   },
   estado: {
     type: Boolean,
     required: false,
+    default: true,
   },
   formularioChecked: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   token: {
     type: String,

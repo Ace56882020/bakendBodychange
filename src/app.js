@@ -38,7 +38,7 @@ app.use(fileUpload({
 }));
 app.use('/', routes);
 
-app.get('/home', (req, res) => {
+app.get('*', (req, res) => {
     res.render('./index');
 });
 

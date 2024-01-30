@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { urls } = require("../goblal/data/global_data");
-
+const { check } = require('express-validator');
 /* Controllers mongoBD */
 const userCtr = require("../controllers/mongoDB/user_ctr");
 const authCtr = require("../controllers/mongoDB/auth_ctr");
@@ -37,8 +37,14 @@ router.post(`/${urls.encrypt}`, cryptoCtr.encrypt)
 router.post(`/${urls.decrypt}`, cryptoCtr.decrypt)
 
 //uploadFile
-router.post(`/${urls.uploadFile}`, uploadCtr.uploadCloudinary);
+router.post(`/${urls.uploadFileCloudinary}`, uploadCtr.uploadCloudinary);
 router.post(`/${urls.viewFile}`, uploadCtr.viewFile);
+// router.post(`/${urls.uploadFile}`, uploadCtr.uploadFile);
+
+router.post(`/${urls.uploadFile}`, [
+    check('id','El id debe de ser de mongo').isMongoId(),
+], uploadCtr.uploadCloudinary )
+// ], actualizarImagen )
 
 //formularios
 router.post(`/${urls.getForms}`, formularioCtr.getFormsById);
