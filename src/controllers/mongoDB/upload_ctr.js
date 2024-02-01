@@ -65,7 +65,8 @@ uploadCtr.uploadCloudinary = async (req,res) => {
       }
       res.status(status).json({
         correct,
-        resp: answer,
+        status,
+        retorno:answer
       });
     } catch (error) {
         console.log(error);
