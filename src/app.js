@@ -1,6 +1,7 @@
 const express = require('express');
 const conectarDB = require('./config/data_config');
 const cors = require('cors');
+
 //modulos
 const path = require('path');
 const routes = require('./routes/routes');
@@ -35,9 +36,10 @@ app.use(fileUpload({
     useTempFiles:true,
     tempFileDir:'/tmp',
     limits: { fileSize: 50 * 1024 * 1024 },
+    createParentPath: true
 }));
-app.use('/', routes);
 
+app.use('/', routes);
 app.get('*', (req, res) => {
     res.render('./index');
 });

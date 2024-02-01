@@ -6,6 +6,7 @@ const {
 const uploadCtr = {};
 
 uploadCtr.uploadFile = async (req, res) => {
+  // console.log(req.file)
   let status = 400;
   let correct = false;
   let answer;
@@ -54,6 +55,7 @@ uploadCtr.uploadCloudinary = async (req,res) => {
     let status = 400;
     let correct = false;
     let answer;
+    // console.log(req,'re----<')
   try {
     const nombre = await uploadImagenCloudinary(req);
     if (nombre) {
