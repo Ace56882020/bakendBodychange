@@ -40,9 +40,6 @@ app.use(fileUpload({
 }));
 
 app.use('/', routes);
-app.get('*', (req, res) => {
-    res.render('./index');
-});
 
 server.listen(port, () => {
     console.log('DEV-BODY, port:', port)
