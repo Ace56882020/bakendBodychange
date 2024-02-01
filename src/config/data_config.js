@@ -7,8 +7,7 @@ const conectarDB = async () => {
         await mongoose.connect(source, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
+       
         })
         console.log('Project Enviroment => ', process.env.User);
     } catch (error) {
