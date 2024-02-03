@@ -1,19 +1,17 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 const source = process.env.DB_MONGO;
-
+const config = {
+  connectTimeoutMS: 5000,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 const conectarDB = async () => {
-    try {
-        await mongoose.connect(source, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-       
-        })
-        console.log('Project Enviroment => ', process.env.User);
-    } catch (error) {
-        console.log(error, "Deteniendo servidor");
-        process.exit(1); // Detenemos la app
-    }
-}
+  try {
+    await mongoose.connect(source, config);
+    console.log("Project Enviroment => ", process.env.USER);
+  } 
+  catch (error) {console.log(error, "Deteniendo servidor");}
+};
 
-module.exports = conectarDB
+module.exports = conectarDB;

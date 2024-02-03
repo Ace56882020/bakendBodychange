@@ -2,7 +2,7 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const base64Img = require("base64-img");
-const User = require("../../models/User");
+const Usuario = require("../../models/Usuario");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config(process.env.CLOUDINARY_URL);
@@ -55,7 +55,7 @@ const uploadgetImg = async () => {
 
 const uploadImagenCloudinary = async (req) => {
   const id = req.params.id;
-  const userImg = await User.findById(id);
+  const userImg = await Usuario.findById(id);
   if (!userImg) {
     return res.status(400).json({
       msg: `No existe un usuario con el id ${id}`,
@@ -73,7 +73,7 @@ const uploadImagenCloudinary = async (req) => {
   const { tempFilePath } = req.files.archivo;
   const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
   userImg.images = secure_url;
-  userById = await User.findOneAndUpdate({ _id: id }, userImg, {
+  userById = await Usuario.findOneAndUpdate({ _id: id }, userImg, {
     new: true,
   });
   return userById;

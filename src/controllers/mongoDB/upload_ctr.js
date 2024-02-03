@@ -1,8 +1,4 @@
-const {
-  uploadValidate,
-  uploadgetImg,
-  uploadImagenCloudinary,
-} = require("./../functions/validate-file-upload");
+const { uploadValidate, uploadgetImg, uploadImagenCloudinary} = require("./../functions/validate-file-upload");
 const uploadCtr = {};
 
 uploadCtr.uploadFile = async (req, res) => {
@@ -51,27 +47,36 @@ uploadCtr.viewFile = async (req, res) => {
   }
 };
 
-uploadCtr.uploadCloudinary = async (req,res) => {
-    let status = 400;
-    let correct = false;
-    let answer;
-    // console.log(req,'re----<')
+uploadCtr.uploadCloudinary = async (req, res) => {
+  let status = 400;
+  let correct = false;
+  let retorno;
+
   try {
-    const nombre = await uploadImagenCloudinary(req);
-    if (nombre) {
-        status = 200;
-        correct = true;
-        answer = nombre;
-      }
+    if (!req.files ||Object.keys(req.files).length === 0 ||!req.files.archivo) {
       res.status(status).json({
         correct,
         status,
-        retorno:answer
+        retorno: "No files were uploaded.",
       });
-    } catch (error) {
-        console.log(error);
-        // .json({ msg });
     }
+    const urlResponse = await uploadImagenCloudinary(req);
+    if (urlResponse) {
+      status = 200;
+      correct = true;
+      retorno = urlResponse.images;
+    } else {
+      retorno = "not found";
+    }
+    res.status(status).json({
+      correct,
+      status,
+      retorno,
+    });
+  } catch (error) {
+    console.log(error);
+    // .json({ msg });
+  }
 };
 
 module.exports = uploadCtr;

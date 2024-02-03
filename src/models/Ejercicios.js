@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const FormularioSchema = Schema({
+const EjerciciosSchema = Schema({
     id: {
         type: String,
         required: true
@@ -28,10 +28,10 @@ const FormularioSchema = Schema({
 });
 
 //retirar campos que no deseo mostrar
-FormularioSchema.methods.toJSON = function () {
-    const { __v, _id, ...Formulario } = this.toObject();
-    Formulario.uid = _id
-    return Formulario
+EjerciciosSchema.methods.toJSON = function () {
+    const { __v, _id, ...Ejercicios } = this.toObject();
+    Ejercicios.uid = _id
+    return Ejercicios
 }
 
-module.exports = model('forms', FormularioSchema);
+module.exports = model('Ejercicios', EjerciciosSchema);

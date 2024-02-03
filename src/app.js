@@ -10,11 +10,11 @@ const bodyParser = require('body-parser');
 const { chat } = require('./controllers/functions/socketIO')
 
 const fileUpload = require('express-fileupload')
-const { name, version } = require('./../package.json');
+const { name, version,author } = require('./../package.json');
 
 console.log('Name: ', name);
 console.log('Version: ', version);
-
+console.log('Autor:', author);
 // Creamos el servidor
 const app = express();
 const server = require('http').createServer(app);
@@ -40,7 +40,7 @@ app.use(fileUpload({
 }));
 
 app.use('/', routes);
-
+server.requestTimeout = 10000;
 server.listen(port, () => {
     console.log('DEV-BODY, port:', port)
 })

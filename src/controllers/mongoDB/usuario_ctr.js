@@ -1,32 +1,42 @@
-const User = require("../../models/User");
+const Usuario = require("../../models/Usuario.js");
 const {
   validarCampos,
   validatorAliasl,
-} = require("./../functions/validar-campos");
-const generarUsuario = require("./../functions/genera-usuario");
-const { encrypt } = require("./../functions/crypto.js");
-const {generarJWT} = require("../functions/generar-jwt");
-const {validarJWT} = require("../functions/generar-jwt");
-const userCtr = {};
+} = require("../functions/validar-campos.js");
+const generarUsuario = require("../functions/genera-usuario.js");
+const { encrypt } = require("../functions/crypto.js");
+const { generarJWT } = require("../functions/generar-jwt.js");
+const { validarJWT } = require("../functions/generar-jwt.js");
+const UsuarioCtr = {};
 const path = require("path");
 const fs = require("fs");
-const { uploadgetImg } = require("../functions/validate-file-upload");
+const { uploadgetImg } = require("../functions/validate-file-upload.js");
 
-userCtr.createuser = async (req, res) => {
+UsuarioCtr.createuser = async (req, res) => {
   let correct = false;
   let status = 400;
   let answer;
   let user;
 
   await validarCampos(req);
-  const {nombre,apellido,alias,password,edad,estatura,peso,genero} = req.body.data;
+  const { nombre, apellido, alias, password, edad, estatura, peso, genero } =
+    req.body.data;
 
   try {
     // Creamos nuestro usuario
-    user = new User({nombre,apellido,alias,password,edad,estatura,peso,genero});
+    user = new Usuario({
+      nombre,
+      apellido,
+      alias,
+      password,
+      edad,
+      estatura,
+      peso,
+      genero,
+    });
     //crea usuario
     var aliasValue = await validatorAliasl(alias);
-    if (aliasValue.status!==200) {
+    if (aliasValue.status !== 200) {
       answer = aliasValue.msg;
       correct;
       status;
@@ -43,7 +53,7 @@ userCtr.createuser = async (req, res) => {
         const valid = await validarJWT(token);
         searchUser.sesion = valid.fechaToken;
         //actualiza usuario con campos de login y password
-        updateUser = await User.findOneAndUpdate(
+        updateUser = await Usuario.findOneAndUpdate(
           { _id: searchUser._id },
           searchUser,
           { new: true }
@@ -61,32 +71,39 @@ userCtr.createuser = async (req, res) => {
     }
     res.status(status).json({
       correct,
+      status,
       retorno: answer,
     });
   } catch (error) {
+    status = 503;
+    res.status(status).json({
+      correct,
+      status,
+      retorno: "MongoDisconnected",
+    });
     console.log(error);
   }
 };
 
 //busca usuario por id
 const getUserByIdCreate = async (id) => {
-  let userId = await User.findById(id);
+  let userId = await Usuario.findById(id);
   return userId;
 };
 
-userCtr.getUser = async (req, res) => {
+UsuarioCtr.getUser = async (req, res) => {
   let correct = false;
   let status = 400;
   const { limit = 5, desde = 0 } = req.query;
   const query = { statusUser: true };
   try {
-    const users = await User.find(query).skip(Number(desde));
+    const users = await Usuario.find(query).skip(Number(desde));
     //   .limit(Number(limit));
     if (users) {
       correct = true;
       status = 200;
     }
-    let total = await User.countDocuments(query);
+    let total = await Usuario.countDocuments(query);
     res.status(status).json({
       total,
       correct,
@@ -97,7 +114,7 @@ userCtr.getUser = async (req, res) => {
   }
 };
 
-userCtr.updateUser = async (req, res) => {
+UsuarioCtr.updateUser = async (req, res) => {
   let correct = false;
   let status = 400;
   const params = req.body.id;
@@ -134,7 +151,7 @@ userCtr.updateUser = async (req, res) => {
     (userById.estatura = estatura), (userById.pais = pais);
     status = 200;
     correct = true;
-    userById = await User.findOneAndUpdate({ _id: params }, userById, {
+    userById = await Usuario.findOneAndUpdate({ _id: params }, userById, {
       new: true,
     });
     res.status(status).json({
@@ -147,14 +164,14 @@ userCtr.updateUser = async (req, res) => {
   }
 };
 
-userCtr.getUserById = async (req, res) => {
+UsuarioCtr.getUserById = async (req, res) => {
   let correct = false;
   let status = 400;
   let retorno;
   let pathImg;
   const _id = req.body.id;
   try {
-    const user = await User.find({ _id });
+    const user = await Usuario.find({ _id });
     if (user.length !== 0) {
       // const imc = await calculoIMC(params);
       // pathImg = await uploadgetImg(user.img)
@@ -175,7 +192,7 @@ userCtr.getUserById = async (req, res) => {
   }
 };
 
-userCtr.deletUser = async (req, res) => {
+UsuarioCtr.deletUser = async (req, res) => {
   try {
     let producto = await Producto.findById(req.params.id);
 
@@ -191,7 +208,7 @@ userCtr.deletUser = async (req, res) => {
   }
 };
 
-userCtr.updateUserEstado = async (id) => {
+UsuarioCtr.updateUserEstado = async (id) => {
   let correct = false;
   let status = 400;
 
@@ -200,10 +217,10 @@ userCtr.updateUserEstado = async (id) => {
     if (!userById) {
       return (msg = "No existe el usuario");
     }
-    usuario.estado = false
+    usuario.estado = false;
     status = 200;
     correct = true;
-    usuarioInactivo = await User.findOneAndUpdate({ _id: params }, usuario, {
+    usuarioInactivo = await Usuario.findOneAndUpdate({ _id: params }, usuario, {
       new: true,
     });
     res.status(status).json({
@@ -215,4 +232,4 @@ userCtr.updateUserEstado = async (id) => {
   }
 };
 
-module.exports = userCtr;
+module.exports = UsuarioCtr;

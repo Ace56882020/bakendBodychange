@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const UserSchema = Schema({
+const UsuarioSchema = Schema({
   nombre: {
     type: String,
     required: true,
@@ -74,10 +74,10 @@ const UserSchema = Schema({
 }); 
 
 //retirar campos que no deseo mostrar
-UserSchema.methods.toJSON = function () {
-  const { __v, _id, ...User } = this.toObject();
-  User.uid = _id;
-  return User;
+UsuarioSchema.methods.toJSON = function () {
+  const { __v, _id, ...Usuario } = this.toObject();
+  Usuario.uid = _id;
+  return Usuario;
 };
 
-module.exports = model("User", UserSchema);
+module.exports = model("Usuario", UsuarioSchema);

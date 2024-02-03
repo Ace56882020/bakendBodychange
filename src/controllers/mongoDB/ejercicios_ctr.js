@@ -1,8 +1,8 @@
-const Formulario = require("../../models/Formulario");
+const Formulario = require("../../models/Ejercicios");
 
-const formularioCtr = {};
+const ejerciciosCtr = {};
 
-formularioCtr.getFormsById = async (req, res) => {
+ejerciciosCtr.getFormsById = async (req, res) => {
     let correct = false;
     let status = 400;
     let retorno;
@@ -26,7 +26,7 @@ formularioCtr.getFormsById = async (req, res) => {
     }
 };
 
-formularioCtr.createForm = async (req, res) => {
+ejerciciosCtr.createForm = async (req, res) => {
     let correct = false;
     let status = 400;
     let answer;
@@ -50,4 +50,4 @@ formularioCtr.createForm = async (req, res) => {
       console.log(error);
     }
   };
-module.exports = formularioCtr;
+module.exports = ejerciciosCtr;

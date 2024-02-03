@@ -1,7 +1,7 @@
-const User = require("../../models/User");
+const Usuario = require("../../models/Usuario.js");
 const {validarJWT} = require("../functions/generar-jwt");
 const { decrypt } = require("./../functions/crypto.js");
-const userCtr = require("./user_ctr.js");
+const usuarioCtr = require("./usuario_ctr.js");
 
 const authCtr = {};
 
@@ -12,7 +12,7 @@ authCtr.login = async (req, res) => {
   const { alias, password } = req.body;
   try {
     //verificar si el correo existe
-    const usuario = await User.findOne({ alias });
+    const usuario = await Usuario.findOne({ alias });
     if (!usuario) {
       return res.status(status).json({
         msg: "Usuario / Password no son correctos - correo",
@@ -49,7 +49,7 @@ authCtr.login = async (req, res) => {
           // estado:usuario.estado
         };
     } else {
-      userCtr.updateUserEstado(usuario._id)
+      usuarioCtr.updateUserEstado(usuario._id)
       answer = "Sesion Expirada";
     }
     res.status(status).json({

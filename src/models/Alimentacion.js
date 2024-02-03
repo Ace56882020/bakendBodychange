@@ -38,4 +38,4 @@ AlimentacionSchema.methods.toJSON = function () {
   return Alimentacion;
 };
 
-module.exports = model("eats", AlimentacionSchema);
+module.exports = model("Alimentacion", AlimentacionSchema);
