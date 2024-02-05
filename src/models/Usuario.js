@@ -52,11 +52,15 @@ const UsuarioSchema = Schema({
     required: false,
   },
   dataMedidas: {
-    type: String,
+    type: Array,
     required: false,
   },
   dataFormulario: {
-    type: String,
+    type: Array,
+    required: false,
+  },
+  dataImagenes: {
+    type: Array,
     required: false,
   },
   images: {

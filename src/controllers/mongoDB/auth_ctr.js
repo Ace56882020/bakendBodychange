@@ -15,7 +15,7 @@ authCtr.login = async (req, res) => {
     const usuario = await Usuario.findOne({ alias });
     if (!usuario) {
       return res.status(status).json({
-        msg: "Usuario / Password no son correctos - correo",
+        retorno: "Usuario / Password no son correctos - correo",
       });
     }
 
@@ -23,14 +23,14 @@ authCtr.login = async (req, res) => {
     const passwordRes = await decrypt(usuario.password);
     if (passwordRes !== password) {
       return res.status(status).json({
-        msg: "Usuario / Password no son correctos - password",
+        retorno: "Usuario / Password no son correctos - password",
       });
     }
 
     // SI el usuario está activo
     if (!usuario.estado) {
       return res.status(status).json({
-        msg: "Usuario / Password no son correctos - estado: false",
+        retorno: "Usuario / Password no son correctos - estado: false",
       });
     }
 

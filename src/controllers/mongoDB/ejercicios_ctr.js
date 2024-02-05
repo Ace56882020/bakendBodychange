@@ -1,4 +1,4 @@
-const Formulario = require("../../models/Ejercicios");
+const Ejercicios = require("../../models/Ejercicios");
 
 const ejerciciosCtr = {};
 
@@ -8,7 +8,7 @@ ejerciciosCtr.getFormsById = async (req, res) => {
     let retorno;
     const id = req.body.id;
     try {
-        const formularios = await Formulario.find({id});
+        const formularios = await Ejercicios.find({id});
         if (formularios.length !==0) {
             status = 200
             correct = true
@@ -33,7 +33,7 @@ ejerciciosCtr.createForm = async (req, res) => {
     const {id, estado, descripcion, nombre, dataRutina} = req.body;
     try {
       let form;
-      form = new Formulario({id, estado, descripcion, nombre, dataRutina});
+      form = new Ejercicios({id, estado, descripcion, nombre, dataRutina});
       const crtForm = await form.save();
       if (crtForm) {
         answer = "ok";

@@ -17,7 +17,7 @@ const EjerciciosSchema = Schema({
         type: Array,
         required: true
     },
-    status: {
+    estado: {
         type: Boolean,
         required: true
     },

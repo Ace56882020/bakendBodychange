@@ -20,7 +20,7 @@ UsuarioCtr.createuser = async (req, res) => {
 
   await validarCampos(req);
   const { nombre, apellido, alias, password, edad, estatura, peso, genero } =
-    req.body.data;
+    req.body;
 
   try {
     // Creamos nuestro usuario
