@@ -15,7 +15,7 @@ const generarJWT = (uid = "") => {
       payload,
       key,
       {
-        expiresIn: '30d'
+        expiresIn: '90d'
       },
       (err, token) => {
         if (err) {

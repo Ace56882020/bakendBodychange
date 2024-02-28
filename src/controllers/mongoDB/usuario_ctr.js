@@ -1,7 +1,7 @@
 const Usuario = require("../../models/Usuario.js");
 const {
   validarCampos,
-  validatorAliasl,
+  validatorCorreo,
 } = require("../functions/validar-campos.js");
 const generarUsuario = require("../functions/genera-usuario.js");
 const { encrypt } = require("../functions/crypto.js");
@@ -19,7 +19,7 @@ UsuarioCtr.createuser = async (req, res) => {
   let user;
 
   await validarCampos(req);
-  const { nombre, apellido, alias, password, edad, estatura, peso, genero } =
+  const { nombre, apellido, correo, password,edad, fechaNacimiento } =
     req.body;
 
   try {
@@ -27,17 +27,15 @@ UsuarioCtr.createuser = async (req, res) => {
     user = new Usuario({
       nombre,
       apellido,
-      alias,
+      correo,
       password,
       edad,
-      estatura,
-      peso,
-      genero,
+      fechaNacimiento
     });
     //crea usuario
-    var aliasValue = await validatorAliasl(alias);
-    if (aliasValue.status !== 200) {
-      answer = aliasValue.msg;
+    var correoValue = await validatorCorreo(correo);
+    if (correoValue.status !== 200) {
+      answer = correoValue.msg;
       correct;
       status;
     } else {
@@ -117,46 +115,29 @@ UsuarioCtr.getUser = async (req, res) => {
 UsuarioCtr.updateUser = async (req, res) => {
   let correct = false;
   let status = 400;
-  const params = req.body.id;
+  const id = req.body.id;
   try {
     const {
-      nombres,
-      rol,
-      movil,
-      ciudad,
-      genero,
-      correo,
-      fechaNacimiento,
-      direccion,
-      questionOne,
-      estatura,
-      peso,
-      pais,
+      dataMedidas,
+      dataFormulario
     } = req.body;
-    let userById = await getUserByIdCreate(params);
+    let userById = await getUserByIdCreate(id);
     if (!userById) {
       return (msg = "No existe el usuario");
     }
-    userById.nombre = nombre;
-    userById.apellido = apellido;
-    userById.rol = rol;
-    userById.movil = movil;
-    userById.ciudad = ciudad;
-    userById.genero = genero;
-    userById.correo = correo;
-    userById.fechaNacimiento = fechaNacimiento;
-    userById.direccion = direccion;
-    userById.questionOne = questionOne;
-    userById.peso = peso;
-    (userById.estatura = estatura), (userById.pais = pais);
+    userById.dataFormulario = dataFormulario;
+    userById.dataMedidas = dataMedidas.data;
+    userById.fechaModificacion = Date.now();
+    userById.suscripcion = true
     status = 200;
     correct = true;
-    userById = await Usuario.findOneAndUpdate({ _id: params }, userById, {
+    userById = await Usuario.findOneAndUpdate({ _id: id }, userById, {
       new: true,
     });
     res.status(status).json({
-      resp: userById,
+      retorno: userById,
       correct,
+      status,
     });
   } catch (error) {
     console.log(error);

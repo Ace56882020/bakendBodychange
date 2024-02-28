@@ -9,13 +9,17 @@ const UsuarioSchema = Schema({
     type: String,
     required: true,
   },
-  alias: {
+  correo: {
+    type: String,
+    required: true,
+  },
+  fechaNacimiento: {
     type: String,
     required: true,
   },
   genero: {
     type: String,
-    required: true,
+    required: false,
   },
   password: {
     type: String,
@@ -23,15 +27,15 @@ const UsuarioSchema = Schema({
   },
   edad: {
     type: Number,
-    required: true,
+    required: false,
   },
   estatura: {
     type: Number,
-    required: true,
+    required: false,
   },
   peso: {
     type: Number,
-    required: true,
+    required: false,
   },
   rol: {
     type: String,
@@ -43,7 +47,7 @@ const UsuarioSchema = Schema({
     required: false,
     default: true,
   },
-  formularioChecked: {
+  suscripcion: {
     type: Boolean,
     default: false,
   },

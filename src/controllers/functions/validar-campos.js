@@ -7,14 +7,14 @@ const validarCampos = async (req, res, next) => {
         return res.status(400).json(errors)
     }
 }
-const validatorAliasl = async (alias) => {
+const validatorCorreo = async (correo) => {
     let retorno = '';
     let correct = false;
     let status = 400
-    const existeEmail = await Usuario.findOne({ alias })
+    const existeEmail = await Usuario.findOne({ correo })
     if (existeEmail) {
         return retorno = {
-            msg: 'Usuario existente',
+            msg: 'correo existente',
             correct,
             status
         }
@@ -25,4 +25,4 @@ const validatorAliasl = async (alias) => {
         }
     }
 }
-module.exports = { validarCampos, validatorAliasl };
+module.exports = { validarCampos, validatorCorreo };

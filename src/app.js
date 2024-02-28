@@ -20,7 +20,7 @@ const app = express();
 const server = require('http').createServer(app);
 // Conectamos a la BD
 conectarDB();
-chat(server)
+chat(server);
 //lectura y parseo de json
 app.use(express.json());
 app.use(bodyParser.json({ limit: '250mb' }));
@@ -40,7 +40,7 @@ app.use(fileUpload({
 }));
 
 app.use('/', routes);
-server.requestTimeout = 10000;
+// server.requestTimeout = 10000;
 server.listen(port, () => {
     console.log('DEV-BODY, port:', port)
 })
