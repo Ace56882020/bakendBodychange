@@ -57,7 +57,10 @@ UsuarioCtr.createuser = async (req, res) => {
           { new: true }
         );
         if (updateUser) {
-          answer = updateUser;
+          answer = {
+            estado:updateUser.estado,
+            nombre: updateUser.nombre
+          };
           correct = true;
           status = 200;
         } else {

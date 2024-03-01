@@ -40,13 +40,14 @@ authCtr.login = async (req, res) => {
         status = 200,
         correct = true,
         answer = {
-          // id: usuario._id,
-          usuario
-          // nombre: usuario.nombre,
-          // apellido: usuario.apellido,
-          // rol: usuario.rol,
-          // token: usuario.token,
-          // estado:usuario.estado
+          id: usuario._id,
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          rol: usuario.rol,
+          token: usuario.token,
+          suscripcion:usuario.suscripcion,
+          fechaCreacion:usuario.fechaCreacion,
+          fechaModificacion:usuario.fechaModificacion
         };
     } else {
       usuarioCtr.updateUserEstado(usuario._id)
