@@ -96,7 +96,7 @@ UsuarioCtr.getUser = async (req, res) => {
   let correct = false;
   let status = 400;
   const { limit = 5, desde = 0 } = req.query;
-  const query = { statusUser: true };
+  const query = { estado: true,rol:'user' };
   try {
     const users = await Usuario.find(query).skip(Number(desde));
     //   .limit(Number(limit));

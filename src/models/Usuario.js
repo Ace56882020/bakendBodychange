@@ -51,6 +51,10 @@ const UsuarioSchema = Schema({
     type: Boolean,
     default: false,
   },
+  suscripcion: {
+    type: Boolean,
+    default: false,
+  },
   token: {
     type: String,
     required: false,
