@@ -63,16 +63,20 @@ const uploadImagenCloudinary = async (req) => {
   }
 
 //   Limpiar imágenes previas
-    if (userImg.images) {
-      const nombreArr = userImg.images.split("/");
-      const nombre = nombreArr[nombreArr.length - 1];
-      const [public_id] = nombre.split(".");
-      cloudinary.uploader.destroy(public_id);
+    // if (userImg.images) {
+    //   const nombreArr = userImg.images.split("/");
+    //   const nombre = nombreArr[nombreArr.length - 1];
+    //   const [public_id] = nombre.split(".");
+    //   cloudinary.uploader.destroy(public_id);
+    // }
+
+    for (let index = 0; index < req.files.archivo.length; index++) {
+      const { tempFilePath } = req.files.archivo[index];
+      const { secure_url } = await cloudinary.uploader.upload(tempFilePath,{folder: 'photoGym'});
+      userImg.dataImagenes.push(secure_url);
     }
 
-  const { tempFilePath } = req.files.archivo;
-  const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
-  userImg.images = secure_url;
+  
   userById = await Usuario.findOneAndUpdate({ _id: id }, userImg, {
     new: true,
   });

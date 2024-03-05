@@ -53,7 +53,7 @@ uploadCtr.uploadCloudinary = async (req, res) => {
   let retorno;
 
   try {
-    if (!req.files ||Object.keys(req.files).length === 0 ||!req.files.archivo) {
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
       res.status(status).json({
         correct,
         status,
