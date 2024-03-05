@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const source = process.env.DB_MONGO;
 const config = {
   connectTimeoutMS: 5000,
-  // useUnifiedTopology: true,
 };
 const conectarDB = async () => {
   try {
